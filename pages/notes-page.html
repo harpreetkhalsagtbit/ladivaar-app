@@ -1,14 +1,23 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/layouts/sidebar-layout.html">
-
+<link rel="import" href="../bower_components/paper-slider/paper-slider.html">
 <polymer-element name="notes-page" noscript>
   <template>
+  <style type="text/css">
+ paper-slider {
+      width: 100%;
+    }
+    
+paper-slider::shadow #sliderBar::shadow #activeProgress {
+  background-color: #0f9d58;
+}
+  </style>
     <sidebar-layout selected="notes">
-      <div class="title">Notes</div>
-
-      <h2>Notes</h2>
-      <p>The last page. Dun-dun-duuuun!</p>
-
+    	<div class="title">Notes</div>
+		<h2>Slide to go to Particular Ang</h2>
+		<div center horizontal layout>
+    		<paper-slider value="1" max="1430" editable></paper-slider>
+    	</div>
     </sidebar-layout>
   </template>
 </polymer-element>
