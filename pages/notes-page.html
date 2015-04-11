@@ -1,7 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/layouts/sidebar-layout.html">
 <link rel="import" href="../bower_components/paper-slider/paper-slider.html">
-<polymer-element name="notes-page" noscript>
+<polymer-element name="notes-page" >
   <template>
   <style type="text/css">
  paper-slider {
@@ -16,8 +16,15 @@ paper-slider::shadow #sliderBar::shadow #activeProgress {
     	<div class="title">Notes</div>
 		<h2>Slide to go to Particular Ang</h2>
 		<div center horizontal layout>
-    		<paper-slider value="1" max="1430" editable></paper-slider>
+    		<paper-slider id="ratings" value="1" max="1430" editable on-change="{{myFunc}}"></paper-slider>
     	</div>
     </sidebar-layout>
   </template>
+  <script type="text/javascript">
+  Polymer('notes-page',  {
+  	myFunc: function (argument) {
+  		console.log(this.$.ratings.value)
+  	}
+  })
+  </script>
 </polymer-element>
