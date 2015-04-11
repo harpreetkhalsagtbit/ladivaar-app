@@ -1,14 +1,19 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/layouts/sidebar-layout.html">
+<link rel="import" href="/bower_components/core-item/core-item.html">
 
 <polymer-element name="home-page" noscript>
   <template>
+  <style type="text/css">
+
+  </style>
     <sidebar-layout selected="home">
       <div class="title">Home</div>
-
-      <h2>Routing with <code>&lt;app-router&gt;</code>!</h2>
-      <p>Lazy-load content. Bind path variables and query parameters. Use multiple layouts. Works with <code>hashchange</code> and <code>pushState</code>.</p>
-
+      <div>
+        <a is="pushstate-anchor" href="/demo/1337?queryParam1=Routing%20with%20Web%20Components!">
+        	<img src="../assets/ladivaar.png" height="100%" width="100%">
+        </a>
+      </div>
     </sidebar-layout>
   </template>
 </polymer-element>
