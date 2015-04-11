@@ -1,6 +1,7 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/layouts/sidebar-layout.html">
 <link rel="import" href="../bower_components/paper-slider/paper-slider.html">
+
 <polymer-element name="notes-page" >
   <template>
   <style type="text/css">
@@ -14,7 +15,7 @@ paper-slider::shadow #sliderBar::shadow #activeProgress {
   </style>
     <sidebar-layout selected="notes">
     	<div class="title">Notes</div>
-		<h2>Slide to go to Particular Ang</h2>
+		<h2 id="a" on-mousemove="{{myFunc}}">Slide to go to Particular Ang</h2>
 		<div center horizontal layout>
     		<paper-slider id="ratings" value="1" max="1430" editable on-change="{{myFunc}}"></paper-slider>
     	</div>
@@ -22,8 +23,21 @@ paper-slider::shadow #sliderBar::shadow #activeProgress {
   </template>
   <script type="text/javascript">
   Polymer('notes-page',  {
+  	ready:function() {
+  		console.log(this.$.a.innerHTML)
+    	var wordArray = this.$.a.innerHTML.match(/(.+?)(?:(\s|$))/g);
+    	var currentHTML = '';
+    	if(wordArray != null) {
+	    	for(var i=0;i<wordArray.length;i++) {
+	    	    currentHTML += "<span>" + wordArray[i].trim() + "</span>";
+	    	}
+    	}
+    	this.$.a.innerHTML = currentHTML
+
+  	},
   	myFunc: function (argument) {
   		console.log(this.$.ratings.value)
+  		document.querySelector('app-router').go('/angOne');
   	}
   })
   </script>
