@@ -11,8 +11,17 @@
   </head>
   <body unresolved>
     <app-router>
-      <app-route path="/" import="/pages/home-page.html"></app-route>
-      <app-route path="/angOne" import="/angs/ang-one.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/" import="/pages/home-page.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/angone" import="/angs/ang-one.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/angtwo" import="/angs/ang-two.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/angthree" import="/angs/ang-three.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/angfour" import="/angs/ang-four.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/angfive" import="/angs/ang-five.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/angsix" import="/angs/ang-six.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/angseven" import="/angs/ang-seven.html"></app-route>
+      <app-route mode="auto|pushstate|hash" path="/angeight" import="/angs/ang-eight.html"></app-route>
+
+
       <app-route path="/demo/:pathArg1" import="/pages/demo-page.html"></app-route>
       <app-route path="/notes" import="/pages/notes-page.html"></app-route>
       <app-route path="*" import="/pages/not-found-page.html"></app-route>
