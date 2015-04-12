@@ -11,15 +11,15 @@
   </head>
   <body unresolved>
     <app-router>
-      <app-route mode="auto|pushstate|hash" path="/" import="/pages/home-page.html"></app-route>
-      <app-route mode="auto|pushstate|hash" path="/angone" import="/angs/ang-one.html"></app-route>
-      <app-route mode="auto|pushstate|hash" path="/angtwo" import="/angs/ang-two.html"></app-route>
-      <app-route mode="auto|pushstate|hash" path="/angthree" import="/angs/ang-three.html"></app-route>
-      <app-route mode="auto|pushstate|hash" path="/angfour" import="/angs/ang-four.html"></app-route>
-      <app-route mode="auto|pushstate|hash" path="/angfive" import="/angs/ang-five.html"></app-route>
-      <app-route mode="auto|pushstate|hash" path="/angsix" import="/angs/ang-six.html"></app-route>
-      <app-route mode="auto|pushstate|hash" path="/angseven" import="/angs/ang-seven.html"></app-route>
-      <app-route mode="auto|pushstate|hash" path="/angeight" import="/angs/ang-eight.html"></app-route>
+      <app-route path="/" import="/pages/home-page.html"></app-route>
+      <app-route path="/angone" import="/angs/ang-one.html" active?="{{selected == 'angone'}}"></app-route>
+      <app-route path="/angtwo" import="/angs/ang-two.html" active?="{{selected == 'angtwo'}}"></app-route>
+      <app-route path="/angthree" import="/angs/ang-three.html" active?="{{selected == 'angthree'}}"></app-route>
+      <app-route path="/angfour" import="/angs/ang-four.html" active?="{{selected == 'angfour'}}"></app-route>
+      <app-route path="/angfive" import="/angs/ang-five.html" active?="{{selected == 'angfive'}}"></app-route>
+      <app-route path="/angsix" import="/angs/ang-six.html" active?="{{selected == 'angsix'}}"></app-route>
+      <app-route path="/angseven" import="/angs/ang-seven.html" active?="{{selected == 'angseven'}}"></app-route>
+      <app-route path="/angeight" import="/angs/ang-eight.html" active?="{{selected == 'angeight'}}"></app-route>
 
 
       <app-route path="/demo/:pathArg1" import="/pages/demo-page.html"></app-route>

@@ -38,7 +38,7 @@ span {
       }
 
   </style>
-    <sidebar-layout selected="home">
+    <sidebar-layout selected="angfour">
       <div class="title" flex>
         <core-icon-button id="back" on-tap="{{angBack}}" icon="arrow-back"></core-icon-button>
         Ang - 4
@@ -73,6 +73,7 @@ span {
   <script type="text/javascript">
   Polymer('ang-four',  {
     ready:function() {
+      setTimeout(function() {
           $('ang-four /deep/  h1').each(function() {
               var wordArray = $(this).html().match(/(.+?)(?:(\s|$))/g);
               var currentHTML = '';
@@ -101,7 +102,7 @@ span {
           $('ang-four /deep/  span').mouseout(function() {
             $(this).removeClass('highlight')
           });
-
+      },100);
     },
     ang:4,
     angBack: function (argument) {
