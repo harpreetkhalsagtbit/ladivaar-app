@@ -15,10 +15,13 @@ paper-slider::shadow #sliderBar::shadow #activeProgress {
   </style>
     <sidebar-layout selected="notes">
     	<div class="title">Ang Selection</div>
-		<h2 id="a" on-mousemove="{{myFunc}}">Slide to go to Particular Ang</h2>
+    <h2 id="a" on-mousemove="{{myFunc}}">Instructions:-</h2>
+		<h4 id="a" on-mousemove="{{myFunc}}">1. Slide to go to Particular Ang</h4>
 		<div center horizontal layout>
     		<paper-slider id="ratings" value="0" max="8" editable on-change="{{myFunc}}"></paper-slider>
     	</div>
+      <h4>2. Touch Arrows on Toolbar to Change Angs while Reading</h4>
+      <h4>3. Touch on words to get Pad-Ched</h2>
     </sidebar-layout>
   </template>
   <script type="text/javascript">
