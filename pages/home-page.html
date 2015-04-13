@@ -2,7 +2,7 @@
 <link rel="import" href="/layouts/sidebar-layout.html">
 <link rel="import" href="/bower_components/core-item/core-item.html">
 
-<polymer-element name="home-page" noscript>
+<polymer-element name="home-page">
   <template>
   <style type="text/css">
 
@@ -16,4 +16,13 @@
       </div>
     </sidebar-layout>
   </template>
+    <script type="text/javascript">
+      Polymer('home-page',  {
+        ready:function() {
+          setTimeout(function() {
+            document.querySelector('app-router').go('/notes');
+          }, 2000)
+        }
+      });
+    </script>
 </polymer-element>
