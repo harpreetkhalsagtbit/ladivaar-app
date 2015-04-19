@@ -11,10 +11,6 @@ body {
   -webkit-touch-callout: none;
 }
 
-section {
-  margin: 20px;
-}
-
 a, a:hover {
   text-decoration: none;
 }
@@ -54,10 +50,10 @@ paper-tabs[noink][nobar] paper-tab.core-selected {
   background-color: #fff;
 }
 
-[main] > div {
+/*[main] > div {
   padding: 2em;
 }
-
+*/
 [drawer] > core-item {
   padding: 1em;
 }
@@ -112,12 +108,32 @@ h1 {
   font-size: 35px;
 }
 
-p {
+section p {
   font-family: 'Dejaweb';
   font-size: 25px;
   margin: 0px;
+  padding-top: 10px;
 }
 
 .highlight {
   background: #1D74FF;
+}
+
+.instruction {
+  text-align: left;
+}
+
+.mainDiv {
+  padding-top: 0px;
+}
+
+.instruction p {
+  margin: 15px;
+  font-size: 15px;
+}
+
+.home {
+    position: absolute;
+    top: 50%;
+    margin: 10%;
 }

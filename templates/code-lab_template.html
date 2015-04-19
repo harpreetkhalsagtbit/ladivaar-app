@@ -1,0 +1,248 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/core-drawer-panel/core-drawer-panel.html">
+<link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="bower_components/core-item/core-item.html">
+<link rel="import" href="bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="bower_components/paper-fab/paper-fab.html">
+
+<link rel="import" href="route.html">
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<style type="text/css">
+    @font-face {
+      font-family: 'Dejaweb';
+      src: url('fonts/NotoSansGurmukhi-Regular.ttf');
+    }
+
+    section {
+      text-align: center;
+    }
+
+    span {
+      font-family: 'Dejaweb';
+      line-height: 1.8;
+      word-wrap; normal;
+      display: inline-block;
+    }
+
+    h1 {
+      font-family: 'Dejaweb';
+      font-size: 35px;
+    }
+
+    p {
+      font-family: 'Dejaweb';
+      font-size: 25px;
+    }
+
+    .highlight {
+      background: #1D74FF;
+    }
+
+</style>
+
+<polymer-element name="codelab-app">
+    <template>
+        <link rel="stylesheet" href="styles.css">
+        <core-drawer-panel>
+            <core-header-panel drawer>
+                <core-toolbar class="medium-tall">
+                    <div>Application</div>
+                </core-toolbar>
+                <div>
+                    <more-route-selector>
+                        <core-item icon="polymer" on-click="{{goToHome}}" label="Home" route="home"><a href="{{urlFor('home')}}" core-drawer-toggle></a></core-item>
+                        <core-item icon="polymer" on-click="{{goToInstruction}}" label="Instructions" route="instructions"><a href="{{urlFor('instructions')}}" core-drawer-toggle></a></core-item>
+                    </more-route-selector>
+                </div>
+            </core-header-panel>
+            <core-header-panel main>
+                <core-toolbar class="medium-tall">
+                    <core-icon-button icon="menu" core-drawer-toggle></core-icon-button>
+                    <div>Ladivaar</div>
+                    <div class="bottom fit" horizontal center-justified layout>
+                        <div><core-icon-button id="back" on-tap="{{angBack}}" icon="arrow-back"></core-icon-button></div>
+                        <div id="headerDisplayContent" style="position:relative; top:8px">Navigator</div>
+                        <div><core-icon-button id="forward"  on-tap="{{angForward}}" icon="arrow-forward" ></core-icon-button></div>
+                    </div>
+                </core-toolbar>
+                <div class="mainDiv">
+                    <more-route-selector>
+                        <core-animated-pages transitions="cross-fade-all hero-transition">
+                            <section route="home" class="home">
+                                <a  href="{{urlFor('instructions')}}">
+                                    <img src="assets/ladivaar.png" width="100%">
+                                </a>
+                            </section>
+                            <section route="instructions" class="instruction">
+                                <p>1. Use <strong>Slider</strong> to go to particular <strong>Ang</strong></p>
+                                <div center horizontal layout>
+                                    <paper-slider id="ratings" value="0" max="1430" editable on-change="{{myFunc}}"></paper-slider>
+                                </div>
+                                <p>2. Type <strong>Ang</strong> in the <strong>TextBox</strong> and <strong>Touch Anywhere</strong> on the Screen to change <strong>Ang</strong></p>
+                                <p>3. Use <strong>Navigator</strong> to change <strong>Angs</strong> while Reading</p>
+                                <p>4. <strong>Touch</strong> on <strong>Screen</strong> to get Pad-Ched</p>
+                            </section>
+                            {{sggs_content}}
+                        </core-animated-pages>
+                    </more-route-selector>
+                </div>
+            </core-header-panel>
+        </core-drawer-panel>
+    </template>
+<script>
+  Polymer('codelab-app', {
+    data:[],
+    add: function() {
+      if (this.newNote) {
+        this.data.unshift({
+          body: this.newNote,
+          done: false
+        });
+        this.$.newNoteInput.style.display = 'none';
+        this.$.newNoteInput.value = null;
+      }
+    },
+    makeLadivaar: function() {
+            if(window.processedAng == undefined) {
+                window.processedAng = {}
+            }
+            var currentAngArr = location.hash.match(/\d+/)
+            var currentAng = 0;
+            if(currentAngArr && currentAngArr.length) {
+                currentAng = currentAngArr[0]
+            }
+            var currentSection = this.$["ang" + currentAng]
+            if(window.processedAng["ang" + currentAng] == undefined) {
+
+                // get all H1 and P tag
+                var children = $(currentSection).children();
+                var sectionHTML = ';'
+                for(var i=0;i<children.length;i++) {
+                    var childHTML = '';
+                    // for each H1 and P tag get their html and wrap each word with
+                    // a span tag
+                    var child = children[i]
+                    var wordArray = $(child).html().match(/(.+?)(?:(\s|$))/g);
+                    if(wordArray != null) {
+                        for(var j=0;j<wordArray.length;j++) {
+                            childHTML += "<span>" + wordArray[j].trim() + "</span>";
+                        }
+                    }
+                    $(child).html(childHTML)
+                }
+
+                $('#ang' + currentAng + '/deep/  span').mouseover(function() {
+                    $(this).addClass('highlight')
+                });
+                $('#ang' + currentAng + '/deep/  span').mouseout(function() {
+                    $(this).removeClass('highlight')
+                });
+                window.processedAng["ang" + currentAng] = true
+            } else {
+                console.log("alread processed")
+            }
+            if(currentSection) {
+                currentSection.parentElement.scrollIntoView()
+            }
+            var backArrow = this.$.back
+            backArrow.style.display = 'block'
+            var forward = this.$.forward
+            forward.style.display = 'block'
+            var headerDisplayDom = this.$.headerDisplayContent
+            $(headerDisplayDom).html("Navigator (Ang - " + currentAng + ")")
+    },
+    setDisplayLabel: function() {
+        var headerDisplayDom = this.$.headerDisplayContent
+        if(location.hash == "") {
+            $(headerDisplayDom).html("Navigator")
+            var backArrow = this.$.back
+            backArrow.style.display = 'none'
+            var forward = this.$.forward
+            forward.style.display = 'block'
+
+        } else if(location.hash == "#!/instructions") {
+            $(headerDisplayDom).html("Instructions")
+            var backArrow = this.$.back
+            backArrow.style.display = 'block'
+            var forward = this.$.forward
+            forward.style.display = 'none'
+        } else {
+            $(headerDisplayDom).html("Navigator")
+        }
+    },
+    ready:function() {
+        console.log("ready")
+        var _this = this;
+        window.onhashchange = function() {
+            console.log(location.hash)
+            _this.makeLadivaar();
+            _this.setDisplayLabel();
+        }
+        this.makeLadivaar();
+        this.setDisplayLabel();
+    },
+    toggleDrawer: function() {
+      this.$.drawerPanel.togglePanel();
+    },
+    showNewNoteInput: function() {
+      this.$.newNoteInput.style.display = 'block';
+    },
+    myFunc: function (argument) {
+        if(this.$.ratings.value && this.$.ratings.value != 0) {
+            window.location.href = "#!/ang/" + this.$.ratings.value
+            // document.querySelector('app-router').go('/ang' + toWords(this.$.ratings.value), {replace:true});
+        }
+    },
+    angForward:function() {
+        var currentAngArr = window.location.hash.match(/\d+/)
+        var currentAng = 0;
+        console.log(currentAngArr)
+        if(currentAngArr && currentAngArr.length) {
+            currentAng = parseInt(currentAngArr[0])
+            window.location.href = "#!/ang/" + (currentAng + 1)
+        } else {
+            window.location.href = "#!/instructions"
+        }
+    },
+    angBack:function() {
+        var currentAngArr = window.location.hash.match(/\d+/)
+        var currentAng = 0;
+        console.log(currentAngArr)
+        if(currentAngArr && currentAngArr.length) {
+            currentAng = parseInt(currentAngArr[0])
+        }
+        if(currentAng > 1) {
+            window.location.href = "#!/ang/" + (currentAng - 1)
+        } else {
+            window.location.href = "#!/instructions"
+        }
+    },
+    goToHome: function () {
+        location.hash = ""
+    },
+    goToInstruction: function() {
+        location.hash = "#!/instructions"
+    },
+    track:function(e) {
+        this.x = e.dx
+        this.y = e.dy
+    },
+    touchEnd:function(e) {
+        console.log(this.x, this.y)
+        if(this.x > 50) {
+            console.log("back")
+            this.angBack()
+        } else if(this.x < -50) {
+            console.log("forward")
+            this.angForward()
+        }
+        this.x = 0;
+        this.y = 0;
+    }
+  });
+</script>
+</polymer-element>
