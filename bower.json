@@ -10,6 +10,8 @@
     "pushstate-anchor": "~0.3.0",
     "polymer": "~0.5.4",
     "webcomponentsjs": "~0.5.4",
-    "core-elements": "Polymer/core-elements#~0.5.4"
+    "core-elements": "Polymer/core-elements#~0.5.4",
+    "more-routing": "Polymore/more-routing#~0.5.0",
+    "left-swipe-action": "~0.1.1"
   }
 }

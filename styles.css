@@ -41,13 +41,6 @@ paper-checkbox {
   margin-left: 1em;
 }
 
-paper-fab {
-  position: absolute !important;
-  top: 35px;
-  right: 1em;
-  z-index: 1;
-}
-
 paper-tabs {
   background-color: #5677fc;
   color: #fff;
@@ -88,10 +81,43 @@ paper-tabs[noink][nobar] paper-tab.core-selected {
   color: #fff;
 }
 
-paper-fab {
-  background-color: #e0a30b;
-  position: absolute !important;
-  bottom: -27px;
-  right: 1em;
-  z-index: 10;
+
+ paper-slider {
+  width: 100%;
+}
+    
+paper-slider::shadow #sliderBar::shadow #activeProgress {
+  background-color: #0f9d58;
+}
+
+@font-face {
+  font-family: 'Dejaweb';
+  src: url('fonts/NotoSansGurmukhi-Regular.ttf');
+}
+
+section {
+  text-align: center;
+}
+
+span {
+  font-family: 'Dejaweb';
+  line-height: 1.8;
+  word-wrap; normal;
+  display: inline-block;
+  border-radius: 15px;
+}
+
+h1 {
+  font-family: 'Dejaweb';
+  font-size: 35px;
+}
+
+p {
+  font-family: 'Dejaweb';
+  font-size: 25px;
+  margin: 0px;
+}
+
+.highlight {
+  background: #1D74FF;
 }
