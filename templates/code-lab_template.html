@@ -148,12 +148,17 @@
             if(currentSection) {
                 currentSection.parentElement.scrollIntoView()
             }
-            var backArrow = this.$.back
-            backArrow.style.display = 'block'
-            var forward = this.$.forward
-            forward.style.display = 'block'
+            console.log("currentAng", currentAng)
             var headerDisplayDom = this.$.headerDisplayContent
-            $(headerDisplayDom).html("Navigator (Ang - " + currentAng + ")")
+            if(currentAng > 0) {
+                $(headerDisplayDom).html("Navigator (Ang - " + currentAng + ")")
+                var backArrow = this.$.back
+                backArrow.style.display = 'block'
+                var forward = this.$.forward
+                forward.style.display = 'block'
+            } else {
+                $(headerDisplayDom).html("Navigator")
+            }
     },
     setDisplayLabel: function() {
         var headerDisplayDom = this.$.headerDisplayContent
@@ -170,8 +175,6 @@
             backArrow.style.display = 'block'
             var forward = this.$.forward
             forward.style.display = 'none'
-        } else {
-            $(headerDisplayDom).html("Navigator")
         }
     },
     ready:function() {
@@ -179,8 +182,8 @@
         var _this = this;
         window.onhashchange = function() {
             console.log(location.hash)
-            _this.makeLadivaar();
             _this.setDisplayLabel();
+            _this.makeLadivaar();
         }
         this.makeLadivaar();
         this.setDisplayLabel();
@@ -200,12 +203,16 @@
     angForward:function() {
         var currentAngArr = window.location.hash.match(/\d+/)
         var currentAng = 0;
-        console.log(currentAngArr)
         if(currentAngArr && currentAngArr.length) {
             currentAng = parseInt(currentAngArr[0])
+        }
+        console.log("currentAng", currentAng)
+        if(currentAng && currentAng < 1430) {
             window.location.href = "#!/ang/" + (currentAng + 1)
-        } else {
-            window.location.href = "#!/instructions"
+        } else if(currentAng == 1430) {
+            window.location.href = "#!/ang/" + (currentAng + 1)
+            var forward = this.$.forward
+            forward.style.display = 'none'
         }
     },
     angBack:function() {
@@ -215,10 +222,8 @@
         if(currentAngArr && currentAngArr.length) {
             currentAng = parseInt(currentAngArr[0])
         }
-        if(currentAng > 1) {
+        if(currentAng && currentAng > 1) {
             window.location.href = "#!/ang/" + (currentAng - 1)
-        } else {
-            window.location.href = "#!/instructions"
         }
     },
     goToHome: function () {
