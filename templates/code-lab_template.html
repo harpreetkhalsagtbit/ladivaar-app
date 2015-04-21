@@ -7,7 +7,6 @@
 <link rel="import" href="bower_components/core-animated-pages/core-animated-pages.html">
 <link rel="import" href="bower_components/core-item/core-item.html">
 <link rel="import" href="bower_components/paper-slider/paper-slider.html">
-<link rel="import" href="bower_components/paper-fab/paper-fab.html">
 
 <link rel="import" href="route.html">
 <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
@@ -162,7 +161,7 @@
     },
     setDisplayLabel: function() {
         var headerDisplayDom = this.$.headerDisplayContent
-        if(location.hash == "") {
+        if(location.hash == "" || location.hash == "#!/") {
             $(headerDisplayDom).html("Navigator")
             var backArrow = this.$.back
             backArrow.style.display = 'none'
@@ -207,7 +206,9 @@
             currentAng = parseInt(currentAngArr[0])
         }
         console.log("currentAng", currentAng)
-        if(currentAng && currentAng < 1430) {
+        if(currentAng == 0) {
+            this.goToInstruction();
+        } else if(currentAng < 1430) {
             window.location.href = "#!/ang/" + (currentAng + 1)
         } else if(currentAng == 1430) {
             window.location.href = "#!/ang/" + (currentAng + 1)
@@ -219,11 +220,15 @@
         var currentAngArr = window.location.hash.match(/\d+/)
         var currentAng = 0;
         console.log(currentAngArr)
-        if(currentAngArr && currentAngArr.length) {
+        if(currentAngArr == null) {
+            this.goToHome();
+        } else if(currentAngArr && currentAngArr.length) {
             currentAng = parseInt(currentAngArr[0])
         }
         if(currentAng && currentAng > 1) {
             window.location.href = "#!/ang/" + (currentAng - 1)
+        } else if(currentAng == 1) {
+            this.goToInstruction();
         }
     },
     goToHome: function () {
