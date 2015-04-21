@@ -141,13 +141,10 @@
                     $(this).removeClass('highlight')
                 });
                 window.processedAng["ang" + currentAng] = true
-            } else {
-                console.log("alread processed")
             }
             if(currentSection) {
                 currentSection.parentElement.scrollIntoView()
             }
-            console.log("currentAng", currentAng)
             var headerDisplayDom = this.$.headerDisplayContent
             if(currentAng > 0) {
                 $(headerDisplayDom).html("Navigator (Ang - " + currentAng + ")")
@@ -177,10 +174,8 @@
         }
     },
     ready:function() {
-        console.log("ready")
         var _this = this;
         window.onhashchange = function() {
-            console.log(location.hash)
             _this.setDisplayLabel();
             _this.makeLadivaar();
         }
@@ -205,7 +200,6 @@
         if(currentAngArr && currentAngArr.length) {
             currentAng = parseInt(currentAngArr[0])
         }
-        console.log("currentAng", currentAng)
         if(currentAng == 0) {
             this.goToInstruction();
         } else if(currentAng < 1430) {
@@ -219,7 +213,6 @@
     angBack:function() {
         var currentAngArr = window.location.hash.match(/\d+/)
         var currentAng = 0;
-        console.log(currentAngArr)
         if(currentAngArr == null) {
             this.goToHome();
         } else if(currentAngArr && currentAngArr.length) {
@@ -242,12 +235,9 @@
         this.y = e.dy
     },
     touchEnd:function(e) {
-        console.log(this.x, this.y)
         if(this.x > 50) {
-            console.log("back")
             this.angBack()
         } else if(this.x < -50) {
-            console.log("forward")
             this.angForward()
         }
         this.x = 0;
