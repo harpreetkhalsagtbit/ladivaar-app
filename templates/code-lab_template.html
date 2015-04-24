@@ -77,9 +77,9 @@
             <core-scroll-header-panel main fixed>
                 <core-toolbar class="small">
                     <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
-                    <div class="bottom fit" horizontal center-justified layout>
+                    <div horizontal center-justified layout>
                         <div><paper-icon-button id="back" on-tap="{{angBack}}" icon="arrow-back"></paper-icon-button></div>
-                        <div id="headerDisplayContent" style="position:relative; top:8px">Navigator</div>
+                        <div id="headerDisplayContent" style="position:relative; top:6px">Home</div>
                         <div><paper-icon-button id="forward"  on-tap="{{angForward}}" icon="arrow-forward" ></paper-icon-button></div>
                     </div>
                 </core-toolbar>
@@ -97,7 +97,7 @@
                                     <input id="angInput" is="core-input" type="text" pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-4][0-2][0-9]|1[0-3][0-9][0-9]|1430)$" preventInvalidInput  value="{{value2}}" committedValue="{{committedValue2}}" >
                                 </paper-input-decorator>
                                 <paper-button raised autofocus on-click = "{{goToAngNumber}}">Go</paper-button>
-                                <p>2. Use <strong>Navigator</strong> to change <strong>Angs</strong> while Reading</p>
+                                <p>2. Use <strong>Arrows</strong> above to change <strong>Angs</strong> while Reading</p>
                                 <p>3. <strong>Touch</strong> on <strong>Screen</strong> to get Pad-Ched</p>
                             </section>
                             {{sggs_content}}
@@ -162,19 +162,19 @@
             }
             var headerDisplayDom = this.$.headerDisplayContent
             if(currentAng > 0) {
-                $(headerDisplayDom).html("Navigator (Ang - " + currentAng + ")")
+                $(headerDisplayDom).html("Current Ang - " + currentAng + "")
                 var backArrow = this.$.back
                 backArrow.style.display = 'block'
                 var forward = this.$.forward
                 forward.style.display = 'block'
             } else {
-                $(headerDisplayDom).html("Navigator")
+                $(headerDisplayDom).html("Home")
             }
     },
     setDisplayLabel: function() {
         var headerDisplayDom = this.$.headerDisplayContent
         if(location.hash == "" || location.hash == "#!/") {
-            $(headerDisplayDom).html("Navigator")
+            $(headerDisplayDom).html("Home")
             var backArrow = this.$.back
             backArrow.style.display = 'none'
             var forward = this.$.forward
