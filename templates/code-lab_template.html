@@ -67,9 +67,9 @@
                             <core-icon icon="home"></core-icon>
                             <a href="{{urlFor('home')}}" core-drawer-toggle>Home</a>
                         </paper-item>
-                        <paper-item on-tap="{{goToInstruction}}" route="instructions">
+                        <paper-item on-tap="{{goToGoToPage}}" route="goto">
                             <core-icon icon="info-outline"></core-icon>
-                            <a href="{{urlFor('instructions')}}" core-drawer-toggle>Instructions</a>
+                            <a href="{{urlFor('goto')}}" core-drawer-toggle>Go To</a>
                         </paper-item>
                     </more-route-selector>
                 </div>
@@ -87,11 +87,11 @@
                     <more-route-selector>
                         <core-animated-pages transitions="cross-fade-all hero-transition">
                             <section route="home" class="home">
-                                <a  href="{{urlFor('instructions')}}">
+                                <a  href="{{urlFor('goto')}}">
                                     <img src="assets/ladivaar.png" width="100%">
                                 </a>
                             </section>
-                            <section route="instructions" class="instruction">
+                            <section route="goto" class="goto">
                                 <p>1. Type <strong>Ang</strong> in the <strong>TextBox</strong> and <strong>Press Go</strong></p>
                                 <paper-input-decorator id="angInput"  on-keypress = "{{keyEvent}}" label = "Enter Ang No - (1-1430)" maxlength = "4">
                                     <input id="angInput" is="core-input" type="text" pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-4][0-2][0-9]|1[0-3][0-9][0-9]|1430)$" preventInvalidInput  value="{{value2}}" committedValue="{{committedValue2}}" >
@@ -180,8 +180,8 @@
             var forward = this.$.forward
             forward.style.display = 'block'
 
-        } else if(location.hash == "#!/instructions") {
-            $(headerDisplayDom).html("Instructions")
+        } else if(location.hash == "#!/goto") {
+            $(headerDisplayDom).html("Go To")
             var backArrow = this.$.back
             backArrow.style.display = 'block'
             var forward = this.$.forward
@@ -213,7 +213,7 @@
             currentAng = parseInt(currentAngArr[0])
         }
         if(currentAng == 0) {
-            this.goToInstruction();
+            this.goToGoToPage();
         } else if(currentAng < 1430) {
             window.location.href = "#!/ang/" + (currentAng + 1)
         } else if(currentAng == 1430) {
@@ -233,14 +233,14 @@
         if(currentAng && currentAng > 1) {
             window.location.href = "#!/ang/" + (currentAng - 1)
         } else if(currentAng == 1) {
-            this.goToInstruction();
+            this.goToGoToPage();
         }
     },
     goToHome: function () {
         location.hash = ""
     },
-    goToInstruction: function() {
-        location.hash = "#!/instructions"
+    goToGoToPage: function() {
+        location.hash = "#!/goto"
     },
     track:function(e) {
         this.x = e.dx
