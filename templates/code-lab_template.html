@@ -1,12 +1,23 @@
+<script src="bower_components/webcomponentsjs/webcomponents.js"></script>
 <link rel="import" href="bower_components/polymer/polymer.html">
 <link rel="import" href="bower_components/core-drawer-panel/core-drawer-panel.html">
 <link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
-<link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="bower_components/core-scroll-header-panel/core-scroll-header-panel.html">
 <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
-<link rel="import" href="bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/core-animated-pages/core-animated-pages.html">
-<link rel="import" href="bower_components/core-item/core-item.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
 <link rel="import" href="bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="bower_components/core-icon/core-icon.html">
+<link rel="import" href="bower_components/core-input/core-input.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/paper-input/paper-input-decorator.html">
+
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="bower_components/paper-dialog/paper-action-dialog.html">
+
 
 <link rel="import" href="route.html">
 <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
@@ -40,32 +51,36 @@
     .highlight {
       background: #1D74FF;
     }
-
 </style>
 
 <polymer-element name="codelab-app">
     <template>
         <link rel="stylesheet" href="styles.css">
         <core-drawer-panel>
-            <core-header-panel drawer>
-                <core-toolbar class="medium-tall">
-                    <div>Application</div>
+            <core-header-panel id="sideDrawer" drawer>
+                <core-toolbar class="small">
+                    <div>Menu</div>
                 </core-toolbar>
                 <div>
                     <more-route-selector>
-                        <core-item icon="polymer" on-click="{{goToHome}}" label="Home" route="home"><a href="{{urlFor('home')}}" core-drawer-toggle></a></core-item>
-                        <core-item icon="polymer" on-click="{{goToInstruction}}" label="Instructions" route="instructions"><a href="{{urlFor('instructions')}}" core-drawer-toggle></a></core-item>
+                        <paper-item on-tap="{{goToHome}}" route="home">
+                            <core-icon icon="home"></core-icon>
+                            <a href="{{urlFor('home')}}" core-drawer-toggle>Home</a>
+                        </paper-item>
+                        <paper-item on-tap="{{goToInstruction}}" route="instructions">
+                            <core-icon icon="info-outline"></core-icon>
+                            <a href="{{urlFor('instructions')}}" core-drawer-toggle>Instructions</a>
+                        </paper-item>
                     </more-route-selector>
                 </div>
             </core-header-panel>
-            <core-header-panel main>
-                <core-toolbar class="medium-tall">
-                    <core-icon-button icon="menu" core-drawer-toggle></core-icon-button>
-                    <div>Ladivaar</div>
+            <core-scroll-header-panel main fixed>
+                <core-toolbar class="small">
                     <div class="bottom fit" horizontal center-justified layout>
-                        <div><core-icon-button id="back" on-tap="{{angBack}}" icon="arrow-back"></core-icon-button></div>
+                        <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
+                        <div><paper-icon-button id="back" on-tap="{{angBack}}" icon="arrow-back"></paper-icon-button></div>
                         <div id="headerDisplayContent" style="position:relative; top:8px">Navigator</div>
-                        <div><core-icon-button id="forward"  on-tap="{{angForward}}" icon="arrow-forward" ></core-icon-button></div>
+                        <div><paper-icon-button id="forward"  on-tap="{{angForward}}" icon="arrow-forward" ></paper-icon-button></div>
                     </div>
                 </core-toolbar>
                 <div class="mainDiv">
@@ -77,19 +92,19 @@
                                 </a>
                             </section>
                             <section route="instructions" class="instruction">
-                                <p>1. Use <strong>Slider</strong> to go to particular <strong>Ang</strong></p>
-                                <div center horizontal layout>
-                                    <paper-slider id="ratings" value="0" max="1430" editable on-change="{{myFunc}}"></paper-slider>
-                                </div>
-                                <p>2. Type <strong>Ang</strong> in the <strong>TextBox</strong> and <strong>Touch Anywhere</strong> on the Screen to change <strong>Ang</strong></p>
-                                <p>3. Use <strong>Navigator</strong> to change <strong>Angs</strong> while Reading</p>
-                                <p>4. <strong>Touch</strong> on <strong>Screen</strong> to get Pad-Ched</p>
+                                <p>1. Type <strong>Ang</strong> in the <strong>TextBox</strong> and <strong>Press Go</strong></p>
+                                <paper-input-decorator id="angInput"  on-keypress = "{{keyEvent}}" label = "Enter Ang No - (1-1430)" maxlength = "4">
+                                    <input id="angInput" is="core-input" type="text" pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-4][0-2][0-9]|1[0-3][0-9][0-9]|1430)$" preventInvalidInput  value="{{value2}}" committedValue="{{committedValue2}}" >
+                                </paper-input-decorator>
+                                <paper-button raised autofocus on-click = "{{goToAngNumber}}">Go</paper-button>
+                                <p>2. Use <strong>Navigator</strong> to change <strong>Angs</strong> while Reading</p>
+                                <p>3. <strong>Touch</strong> on <strong>Screen</strong> to get Pad-Ched</p>
                             </section>
                             {{sggs_content}}
                         </core-animated-pages>
                     </more-route-selector>
                 </div>
-            </core-header-panel>
+            </core-scroll-header-panel>
         </core-drawer-panel>
     </template>
 <script>
@@ -182,9 +197,6 @@
         this.makeLadivaar();
         this.setDisplayLabel();
     },
-    toggleDrawer: function() {
-      this.$.drawerPanel.togglePanel();
-    },
     showNewNoteInput: function() {
       this.$.newNoteInput.style.display = 'block';
     },
@@ -242,6 +254,17 @@
         }
         this.x = 0;
         this.y = 0;
+    },
+    goToAngNumber: function() {
+        if(this.$.angInput.value) {
+            window.location.href = "#!/ang/" + this.$.angInput.value
+            this.$.angInput.value = "";
+        }
+    },
+    keyEvent: function (e) {
+        if(e.keyCode == 13) {
+            this.goToAngNumber();
+        }
     }
   });
 </script>

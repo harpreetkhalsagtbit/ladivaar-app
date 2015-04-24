@@ -68,12 +68,12 @@ paper-tabs[noink][nobar] paper-tab.core-selected {
 }
 
 [drawer] core-toolbar {
-  background-color: #4F7DC9;
+  background-color: #4E9D91;
   color: #fff;
 }
 
 [main] core-toolbar {
-  background-color: #526E9C;
+  background-color: #5BB7A9;
   color: #fff;
 }
 
@@ -128,16 +128,13 @@ section p {
   background: #1D74FF;
 }
 
-.instruction {
-  text-align: left;
-}
-
 .mainDiv {
   padding-top: 0px;
 }
 
 .instruction p {
-  margin: 15px;
+  text-align: left;
+  margin-left: 10px;
   font-size: 15px;
 }
 
@@ -145,4 +142,21 @@ section p {
     position: absolute;
     top: 50%;
     margin: 10%;
+}
+
+.mainTitle {
+    text-align: center;
+    font-size: 50px;
+}
+
+#angInput {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+a {
+  margin-left:5px; 
+}
+a:visited {
+  color: black;
 }
