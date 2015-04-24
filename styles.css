@@ -125,7 +125,8 @@ section p {
 }
 
 .highlight {
-  background: #1D74FF;
+  background: #5BB7A9;
+  color: white
 }
 
 .mainDiv {
@@ -156,7 +157,9 @@ section p {
 
 a {
   margin-left:5px; 
+  color: black;
 }
+
 a:visited {
   color: black;
 }

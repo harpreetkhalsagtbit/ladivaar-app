@@ -63,12 +63,12 @@
                 </core-toolbar>
                 <div>
                     <more-route-selector>
-                        <paper-item on-tap="{{goToHome}}" route="home">
-                            <core-icon icon="home"></core-icon>
+                        <paper-item on-tap="{{goToHome}}" route="home" core-drawer-toggle>
+                            <core-icon icon="home" core-drawer-toggle></core-icon>
                             <a href="{{urlFor('home')}}" core-drawer-toggle>Home</a>
                         </paper-item>
-                        <paper-item on-tap="{{goToGoToPage}}" route="goto">
-                            <core-icon icon="info-outline"></core-icon>
+                        <paper-item on-tap="{{goToGoToPage}}" route="goto" core-drawer-toggle>
+                            <core-icon icon="arrow-forward" core-drawer-toggle></core-icon>
                             <a href="{{urlFor('goto')}}" core-drawer-toggle>Go To</a>
                         </paper-item>
                     </more-route-selector>
@@ -130,7 +130,7 @@
                 currentAng = currentAngArr[0]
             }
             var currentSection = this.$["ang" + currentAng]
-            if(window.processedAng["ang" + currentAng] == undefined) {
+            if(window.processedAng["ang" + currentAng] == undefined && currentAng > 0) {
 
                 // get all H1 and P tag
                 var children = $(currentSection).children();
@@ -157,7 +157,7 @@
                 });
                 window.processedAng["ang" + currentAng] = true
             }
-            if(currentSection) {
+            if(currentSection && currentAng > 0) {
                 currentSection.parentElement.scrollIntoView()
             }
             var headerDisplayDom = this.$.headerDisplayContent
@@ -191,8 +191,8 @@
     ready:function() {
         var _this = this;
         window.onhashchange = function() {
-            _this.setDisplayLabel();
             _this.makeLadivaar();
+            _this.setDisplayLabel();
         }
         this.makeLadivaar();
         this.setDisplayLabel();
