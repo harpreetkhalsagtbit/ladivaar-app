@@ -173,21 +173,11 @@ core-item.contact-item {
 
 .button_as_item {
   width: 90%;
-  margin-left: 1em; 
+  margin-left: 1em;
+  text-transform: none;
 }
 
 #angSlider {
   margin-left: 10px;
   width: 90%
-}
-
-#fateh1 {
-  text-align: center;
-  font-size: 25px;
-  padding: 0px;
-}
-#fateh2 {
-  text-align: center;
-  font-size: 25px;
-  padding: 0px;
 }
