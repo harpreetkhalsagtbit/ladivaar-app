@@ -251,6 +251,17 @@ grunt.loadNpmTasks('grunt-json-format');
 		if (!fs.existsSync(dir)){
 		    fs.mkdirSync(dir);
 		}
+
+		var dir = "ang/code"
+		if (!fs.existsSync(dir)){
+		    fs.mkdirSync(dir);
+		}
+
+		var dir = "ang/code/routes"
+		if (!fs.existsSync(dir)){
+		    fs.mkdirSync(dir);
+		}
+
         for(var each in jsonContent) {
         	_count++;
         	var _jsonContent = jsonContent[each].replace("{{_id}}", "ang" + ang)
@@ -271,14 +282,14 @@ grunt.loadNpmTasks('grunt-json-format');
 		  //       _htmlContent = _htmlContent.replace("{{angRangePunjabi}}", _punjabiAng)
 		  //       _htmlContent = _htmlContent.replace("{{angRangeEnglish}}", (startIndex+1) + "&nbsp-&nbsp" + _count)
 		        _htmlContent = _htmlContent.replace("{{sggs_content}}", splitJson.join("\n"))
-		        _htmlContent = _htmlContent.replace("{{_route}}", 'route_' + (startIndex+1) + "_" + _count + ".html")
+		        _htmlContent = _htmlContent.replace("{{_route}}", 'routes/route_' + (startIndex+1) + "_" + _count + ".html")
 		        _htmlContent = _htmlContent.replace(/{{_startIndex}}/g, startIndex+1)
 		        _htmlContent = _htmlContent.replace(/{{_endIndex}}/g, _count)
 
 		        _routeContent = _routeContent.replace("{{route_content}}", _routeTemplateContent.join("\n"))
-		        _indexContent = _indexContent.replace("{{_codelab}}", 'code-lab_' + (startIndex+1) + "_" + _count + ".html")
-		        fs.writeFileSync('ang/code-lab_' + (startIndex+1) + "_" + _count + ".html", _htmlContent)
-		        fs.writeFileSync('ang/route_' + (startIndex+1) + "_" + _count + ".html", _routeContent)
+		        _indexContent = _indexContent.replace("{{_codelab}}", 'code/code-lab_' + (startIndex+1) + "_" + _count + ".html")
+		        fs.writeFileSync('ang/code/code-lab_' + (startIndex+1) + "_" + _count + ".html", _htmlContent)
+		        fs.writeFileSync('ang/code/routes/route_' + (startIndex+1) + "_" + _count + ".html", _routeContent)
 		        fs.writeFileSync('ang/index_' + (startIndex+1) + "_" + _count + ".html", _indexContent)
 		        // fs.writeFileSync('../reveal.js/indexLarivaar.html', _htmlContent)
 
