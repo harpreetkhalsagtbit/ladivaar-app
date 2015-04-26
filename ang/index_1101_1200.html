@@ -10375,6 +10375,17 @@ core-item.contact-item {
 #angSlider {
   margin-left: 10px;
   width: 90%
+}
+
+#fateh1 {
+  text-align: center;
+  font-size: 25px;
+  padding: 0px;
+}
+#fateh2 {
+  text-align: center;
+  font-size: 25px;
+  padding: 0px;
 }</style>
         <core-drawer-panel>
             <core-header-panel id="sideDrawer" drawer="">
@@ -10408,6 +10419,8 @@ core-item.contact-item {
                                 </a>
                             </section>
                             <section route="goto" class="goto">
+                                <p id="fateh1"><strong>Waheguru Jee Ka Khalsa</strong></p>
+                                <p id="fateh2"><strong>Waheguru Jee Ki Fateh</strong></p>
                                 <p>1. <strong>Slide</strong> to go to particular <strong>Ang</strong></p>
                                 <paper-slider pin="" id="angSlider" value="1101" min="1101" max="1200" on-change="{{myFunc}}"></paper-slider>
                                 <p>2. Use <strong>Arrows</strong> above to change <strong>Angs</strong> while Reading</p>
@@ -12462,7 +12475,7 @@ core-item.contact-item {
             forward.style.visibility = 'hidden'
 
         } else if(location.hash == "#!/goto") {
-            $(headerDisplayDom).html("Ladivaar")
+            $(headerDisplayDom).html("Ang 1101 - 1200")
             var backArrow = this.$.back
             backArrow.style.visibility = 'hidden'
             var forward = this.$.forward
