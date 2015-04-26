@@ -46,7 +46,29 @@ module.exports = function(grunt) {
 		            }
 		        ]
 		    }
-		}
+		},
+		vulcanize: {
+		    default: {
+		      options: {},
+		      files: {
+		        'ang/index_1_100.html': 'ang/index_1_100.html',
+		        'ang/index_101_200.html': 'ang/index_101_200.html',
+		        'ang/index_201_300.html': 'ang/index_201_300.html',
+		        'ang/index_301_400.html': 'ang/index_301_400.html',
+		        'ang/index_401_500.html': 'ang/index_401_500.html',
+		        'ang/index_501_600.html': 'ang/index_501_600.html',
+		        'ang/index_601_700.html': 'ang/index_601_700.html',
+		        'ang/index_701_800.html': 'ang/index_701_800.html',
+		        'ang/index_801_900.html': 'ang/index_801_900.html',
+		        'ang/index_901_1000.html': 'ang/index_901_1000.html',
+		        'ang/index_1001_1100.html': 'ang/index_1001_1100.html',
+		        'ang/index_1101_1200.html': 'ang/index_1101_1200.html',
+		        'ang/index_1201_1300.html': 'ang/index_1201_1300.html',
+		        'ang/index_1301_1400.html': 'ang/index_1301_1400.html',
+		        'ang/index_1401_1430.html': 'ang/index_1401_1430.html',
+		      },
+		    },
+		  },
 	})
 
     // Actually load this plugin's task(s).
@@ -57,6 +79,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-zip');
 grunt.loadNpmTasks('grunt-convert');
 grunt.loadNpmTasks('grunt-json-format');
+grunt.loadNpmTasks('grunt-vulcanize');
 
 	grunt.registerTask('unicodeConversion', function() {
 		var unicodeJsonObject = []
@@ -316,7 +339,7 @@ grunt.loadNpmTasks('grunt-json-format');
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
-    grunt.registerTask('default', ['rename:renameDocxToZip', 'unzip:extractZipFile', 'rename:renameZipToDocx', 'convert:xml2json', 'unicodeConversion', 'json-format:test', 'htmlJsonConversion', 'createJsonFilesOnGivenRange']);
+    grunt.registerTask('default', ['rename:renameDocxToZip', 'unzip:extractZipFile', 'rename:renameZipToDocx', 'convert:xml2json', 'unicodeConversion', 'json-format:test', 'htmlJsonConversion', 'createJsonFilesOnGivenRange', 'vulcanize:default']);
 }
 
 var convertToUnicodeCLI = function(text, mappingString) {
