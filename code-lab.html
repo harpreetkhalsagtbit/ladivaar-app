@@ -82,17 +82,16 @@
                 <div class="mainDiv">
                     <more-route-selector>
                         <core-animated-pages transitions="cross-fade-all hero-transition">
-                            <section route="home" class="home">
+                            <section id= "splashScreen" route="home" class="home">
                                 <a  href="{{urlFor('goto')}}">
                                     <img src="assets/ladivaar.png" width="100%">
                                 </a>
                             </section>
                             <section route="goto" class="goto">
-                                <p>1. Type <strong>Ang</strong> in the <strong>TextBox</strong> and <strong>Press Go</strong></p>
                                 <paper-input-decorator id="angInput"  on-keypress = "{{keyEvent}}" label = "Enter Ang No - (1-1430)" maxlength = "4">
                                     <input id="angInput" is="core-input" type="text" pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-4][0-2][0-9]|1[0-3][0-9][0-9]|1430)$" preventInvalidInput  value="{{value2}}" committedValue="{{committedValue2}}" >
                                 </paper-input-decorator>
-                                <paper-button raised autofocus on-click = "{{goToAngNumber}}">Go</paper-button>
+                                <p>1. Type <strong>Ang</strong> in the <strong>TextBox</strong> and <strong>Press Go</strong></p>
                                 <p>2. Use <strong>Arrows</strong> above to change <strong>Angs</strong> while Reading</p>
                                 <p>3. <strong>Touch</strong> on <strong>Screen</strong> to get Pad-Ched</p>
                             </section>
@@ -191,6 +190,9 @@
         }
         this.makeLadivaar();
         this.setDisplayLabel();
+        setTimeout(function() {
+            _this.goToGoToPage();
+        }, 3000)
     },
     showNewNoteInput: function() {
       this.$.newNoteInput.style.display = 'block';
@@ -250,9 +252,26 @@
         this.x = 0;
         this.y = 0;
     },
+    angRange : function(num) {
+        var _range = 100;
+        var _factor = num / _range
+
+        if(_factor % 1 == 0) {
+            //num is rounded - 100 200, 1100, 1400 etc
+            _factor = _factor - 0.1
+        }
+        var _lowRangeFactor = Math.floor(_factor)
+        return {
+            startIndex : (_lowRangeFactor * _range) + 1,
+            endIndex : (_lowRangeFactor + 1) * _range
+        }
+    },
     goToAngNumber: function() {
         if(this.$.angInput.value) {
-            window.location.href = "#!/ang/" + this.$.angInput.value
+            var _range = this.angRange(this.$.angInput.value)
+            console.log(window.location.origin + "/ladivaar-app/ang/index_" + _range.startIndex + "_" + _range.endIndex + ".html#!/ang/" + this.$.angInput.value)
+            window.open(window.location.origin + "/ladivaar-app/ang/index_" + _range.startIndex + "_" + _range.endIndex + ".html#!/ang/" + this.$.angInput.value)
+            // window.location.href = "#!/ang/" + this.$.angInput.value
             this.$.angInput.value = "";
         }
     },

@@ -166,7 +166,7 @@ grunt.loadNpmTasks('grunt-json-format');
 		_lastPankti["ang"] = 1430
         fs.writeFileSync('SGGS.json', JSON.stringify(unicodeJsonObject));
 	});
-
+	
 	grunt.registerTask('htmlJsonConversion', function() {
         var _sggsJson = JSON.parse(fs.readFileSync('SGGS.json').toString());
         var _startSection = "<section id='{{_id}}' route='{{_route}}'>"
@@ -232,30 +232,61 @@ grunt.loadNpmTasks('grunt-json-format');
     			_ang = '';
         	}
         }
-        fs.writeFileSync('indexLadivaar.json', JSON.stringify(_arrayAngs))
+        fs.writeFileSync('../reveal.js/indexLarivaar.json', JSON.stringify(_arrayAngs))
  	});
 	grunt.registerTask('createJsonFilesOnGivenRange', function() {
-        var jsonContent = JSON.parse(fs.readFileSync('indexLadivaar.json').toString());
+		var range = 100;
+        var jsonContent = JSON.parse(fs.readFileSync('../reveal.js/indexLarivaar.json').toString());
+        var _count = 0;
         var splitJson = [];
+        var startIndex = 0;
+        var endIndex = startIndex + range;
         var ang = 1;
 		var mappingObject = JSON.parse(fs.readFileSync('../Unicode-Input/lib/core/lang/punjabi/_jsonMaps/gurbaniAkharSlim.json').toString());
-
-        var _htmlContent = fs.readFileSync('templates/code-lab_template.html').toString();
-        var _routeContent = fs.readFileSync('templates/route_template.html').toString();
-
         var routeString = '<more-route name="{{_name}}" path="/{{_name}}"></more-route>'
-        var _routeTemplateContent = '';
+        var _routeTemplateContent = [];
+
+		var dir = "ang"
+		if (!fs.existsSync(dir)){
+		    fs.mkdirSync(dir);
+		}
         for(var each in jsonContent) {
-    		jsonContent[each] = jsonContent[each].replace(/{{_id}}/g, "ang" + ang)
-    		splitJson.push(jsonContent[each].replace(/{{_route}}/g,  "ang/" + ang))
-    		_routeTemplateContent += routeString.replace(/{{_name}}/g, "ang/" + ang) + "\n"
-    		ang++;
+        	_count++;
+        	var _jsonContent = jsonContent[each].replace("{{_id}}", ang)
+        	_jsonContent = _jsonContent.replace("{{_route}}", "ang/" + ang)
+    		splitJson.push(_jsonContent)
+    		_routeTemplateContent.push(routeString.replace(/{{_name}}/g, "ang/" + ang))
+        		ang++;
+        	if (_count == endIndex) {
+       //  		splitJson.push(jsonContent[each].replace("{{_id}}", ang))
+	    		// _routeTemplateContent.push(routeString.replace(/{{_name}}/g, "ang/" + ang))
+       //  		ang++;
+				var _htmlContent = fs.readFileSync('templates/code-lab_template.html').toString();
+				var _routeContent = fs.readFileSync('templates/route_template.html').toString();
+				var _indexContent = fs.readFileSync('templates/index_template.html').toString();
+
+				// var _punjabiAng = convertToUnicodeCLI((startIndex+1) + " - " + _count, mappingObject)
+				// _punjabiAng = _punjabiAng.replace("-", "&nbsp-&nbsp")
+		  //       _htmlContent = _htmlContent.replace("{{angRangePunjabi}}", _punjabiAng)
+		  //       _htmlContent = _htmlContent.replace("{{angRangeEnglish}}", (startIndex+1) + "&nbsp-&nbsp" + _count)
+		        _htmlContent = _htmlContent.replace("{{sggs_content}}", splitJson.join("\n"))
+		        _htmlContent = _htmlContent.replace("{{_route}}", 'route_' + (startIndex+1) + "_" + _count + ".html")
+		        _routeContent = _routeContent.replace("{{route_content}}", _routeTemplateContent.join("\n"))
+		        _indexContent = _indexContent.replace("{{_codelab}}", 'code-lab_' + (startIndex+1) + "_" + _count + ".html")
+		        fs.writeFileSync('ang/code-lab_' + (startIndex+1) + "_" + _count + ".html", _htmlContent)
+		        fs.writeFileSync('ang/route_' + (startIndex+1) + "_" + _count + ".html", _routeContent)
+		        fs.writeFileSync('ang/index_' + (startIndex+1) + "_" + _count + ".html", _indexContent)
+		        // fs.writeFileSync('../reveal.js/indexLarivaar.html', _htmlContent)
+
+				startIndex = _count
+		        endIndex = startIndex + range
+		        if(endIndex > 1400) {
+		        	endIndex = 1430
+		        }
+        		splitJson.splice(0);
+        		_routeTemplateContent.splice(0)
+        	}
         }
-        _htmlContent = _htmlContent.replace("{{sggs_content}}", splitJson.join("\n"))
-        _routeContent = _routeContent.replace("{{route_content}}", _routeTemplateContent)
-        fs.writeFileSync("code-lab.html", _htmlContent)
-        fs.writeFileSync("route.html", _routeContent)
-        // fs.writeFileSync('../reveal.js/indexLadivaar.html', _htmlContent)
 	});
 
 	grunt.registerTask('copyDependentFilesToReveal', function() {
