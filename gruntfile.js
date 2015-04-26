@@ -66,6 +66,7 @@ module.exports = function(grunt) {
 		        'ang/index_1201_1300.html': 'ang/index_1201_1300.html',
 		        'ang/index_1301_1400.html': 'ang/index_1301_1400.html',
 		        'ang/index_1401_1430.html': 'ang/index_1401_1430.html',
+		        'index.html':"test.html"
 		      },
 		    },
 		  },
