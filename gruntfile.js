@@ -234,6 +234,7 @@ grunt.loadNpmTasks('grunt-json-format');
         }
         fs.writeFileSync('../reveal.js/indexLarivaar.json', JSON.stringify(_arrayAngs))
  	});
+
 	grunt.registerTask('createJsonFilesOnGivenRange', function() {
 		var range = 100;
         var jsonContent = JSON.parse(fs.readFileSync('../reveal.js/indexLarivaar.json').toString());
@@ -252,7 +253,7 @@ grunt.loadNpmTasks('grunt-json-format');
 		}
         for(var each in jsonContent) {
         	_count++;
-        	var _jsonContent = jsonContent[each].replace("{{_id}}", ang)
+        	var _jsonContent = jsonContent[each].replace("{{_id}}", "ang" + ang)
         	_jsonContent = _jsonContent.replace("{{_route}}", "ang/" + ang)
     		splitJson.push(_jsonContent)
     		_routeTemplateContent.push(routeString.replace(/{{_name}}/g, "ang/" + ang))
@@ -271,6 +272,9 @@ grunt.loadNpmTasks('grunt-json-format');
 		  //       _htmlContent = _htmlContent.replace("{{angRangeEnglish}}", (startIndex+1) + "&nbsp-&nbsp" + _count)
 		        _htmlContent = _htmlContent.replace("{{sggs_content}}", splitJson.join("\n"))
 		        _htmlContent = _htmlContent.replace("{{_route}}", 'route_' + (startIndex+1) + "_" + _count + ".html")
+		        _htmlContent = _htmlContent.replace(/{{_startIndex}}/g, startIndex+1)
+		        _htmlContent = _htmlContent.replace(/{{_endIndex}}/g, _count)
+
 		        _routeContent = _routeContent.replace("{{route_content}}", _routeTemplateContent.join("\n"))
 		        _indexContent = _indexContent.replace("{{_codelab}}", 'code-lab_' + (startIndex+1) + "_" + _count + ".html")
 		        fs.writeFileSync('ang/code-lab_' + (startIndex+1) + "_" + _count + ".html", _htmlContent)

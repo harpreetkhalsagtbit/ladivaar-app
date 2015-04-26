@@ -9,7 +9,9 @@
 <link rel="import" href="bower_components/paper-item/paper-item.html">
 <link rel="import" href="bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-ripple/paper-ripple.html">
 
+<link rel="import" href="bower_components/core-item/core-item.html">
 <link rel="import" href="bower_components/core-icon/core-icon.html">
 <link rel="import" href="bower_components/core-input/core-input.html">
 <link rel="import" href="bower_components/paper-input/paper-input.html">
@@ -88,12 +90,36 @@
                                 </a>
                             </section>
                             <section route="goto" class="goto">
-                                <paper-input-decorator id="angInput"  on-keypress = "{{keyEvent}}" label = "Enter Ang No - (1-1430)" maxlength = "4">
-                                    <input id="angInput" is="core-input" type="text" pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-4][0-2][0-9]|1[0-3][0-9][0-9]|1430)$" preventInvalidInput  value="{{value2}}" committedValue="{{committedValue2}}" >
-                                </paper-input-decorator>
-                                <p>1. Type <strong>Ang</strong> in the <strong>TextBox</strong> and <strong>Press Go</strong></p>
-                                <p>2. Use <strong>Arrows</strong> above to change <strong>Angs</strong> while Reading</p>
-                                <p>3. <strong>Touch</strong> on <strong>Screen</strong> to get Pad-Ched</p>
+                                <div flex>
+                                    <div>
+                                        <h1><span>Sri Guru Granth Sahib</span></h1>
+                                    </div>
+                                    <div>
+                                        <h3><span>Sainchiyaan Ladivaar</span></h3>
+                                    </div>
+                                </div>
+                                <paper-button raised class = "button_as_item">
+                                    <strong><a href="ang/index_1_100.html#!/goto" target="_blank">Ang 1-100</a></strong>
+                                </paper-button>
+                                <paper-button raised class = "button_as_item">
+                                    <strong><a href="ang/index_101_200.html#!/goto" target="_blank">Ang 101-200</a></strong>
+                                </paper-button>
+                                <paper-button raised class = "button_as_item">
+                                    <strong><a href="ang/index_201_300.html#!/goto" target="_blank">Ang 201-300</a></strong>
+                                </paper-button>
+                                <paper-button raised class = "button_as_item">
+                                    <strong><a href="ang/index_301_400.html#!/goto" target="_blank">Ang 301-400</a></strong>
+                                </paper-button>
+                                <paper-button raised class = "button_as_item">
+                                    <strong><a href="ang/index_401_500.html#!/goto" target="_blank">Ang 401-500</a></strong>
+                                </paper-button>
+                                <paper-button raised class = "button_as_item">
+                                    <strong><a href="ang/index_501_600.html#!/goto" target="_blank">Ang 501-600</a></strong>
+                                </paper-button>
+                                <paper-button raised class = "button_as_item">
+                                    <strong><a href="ang/index_601_700.html#!/goto" target="_blank">Ang 601-700</a></strong>
+                                </paper-button>
+
                             </section>
                         </core-animated-pages>
                     </more-route-selector>
@@ -263,21 +289,20 @@
         var _lowRangeFactor = Math.floor(_factor)
         return {
             startIndex : (_lowRangeFactor * _range) + 1,
-            endIndex : (_lowRangeFactor + 1) * _range
+            endIndex : (_lowRangeFactor + 1) * _range > 1400 ? 1430 : (_lowRangeFactor + 1) * _range
         }
     },
-    goToAngNumber: function() {
-        if(this.$.angInput.value) {
-            var _range = this.angRange(this.$.angInput.value)
-            console.log(window.location.origin + "/ladivaar-app/ang/index_" + _range.startIndex + "_" + _range.endIndex + ".html#!/ang/" + this.$.angInput.value)
-            window.open(window.location.origin + "/ladivaar-app/ang/index_" + _range.startIndex + "_" + _range.endIndex + ".html#!/ang/" + this.$.angInput.value)
-            // window.location.href = "#!/ang/" + this.$.angInput.value
-            this.$.angInput.value = "";
+    goToAngNumber: function(num) {
+        if(num) {
+            var _range = this.angRange(num)
+            this.$.linkAng.href =window.location.origin + "/ladivaar-app/ang/index_" + _range.startIndex + "_" + _range.endIndex + ".html#!/ang/" + num
+            this.$.linkAng.click();
         }
     },
     keyEvent: function (e) {
         if(e.keyCode == 13) {
-            this.goToAngNumber();
+            this.goToAngNumber(this.$.angInput.value);
+            this.$.angInput.value = "";
         }
     }
   });

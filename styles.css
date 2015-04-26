@@ -135,8 +135,9 @@ section p {
 
 .goto p {
   text-align: left;
-  margin-left: 10px;
   font-size: 15px;
+  margin-left: 20px;
+  padding: 10px;
 }
 
 .home {
@@ -162,4 +163,20 @@ a {
 
 a:visited {
   color: black;
+}
+
+core-item.contact-item {
+  height: 50px;
+  background-color: #efefef;
+  border: 1px solid #ddd;
+}
+
+.button_as_item {
+  width: 90%;
+  margin-left: 1em; 
+}
+
+#angSlider {
+  margin-left: 10px;
+  width: 90%
 }

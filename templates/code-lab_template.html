@@ -63,10 +63,6 @@
                 </core-toolbar>
                 <div>
                     <more-route-selector>
-                        <paper-item on-tap="{{goToHome}}" route="home" core-drawer-toggle>
-                            <core-icon icon="home" core-drawer-toggle></core-icon>
-                            <a href="{{urlFor('home')}}" core-drawer-toggle>Home</a>
-                        </paper-item>
                         <paper-item on-tap="{{goToGoToPage}}" route="goto" core-drawer-toggle>
                             <core-icon icon="arrow-forward" core-drawer-toggle></core-icon>
                             <a href="{{urlFor('goto')}}" core-drawer-toggle>Go To</a>
@@ -79,7 +75,7 @@
                     <paper-icon-button icon="menu" core-drawer-toggle></paper-icon-button>
                     <div horizontal center-justified layout>
                         <div><paper-icon-button id="back" on-tap="{{angBack}}" icon="arrow-back"></paper-icon-button></div>
-                        <div id="headerDisplayContent" style="position:relative; top:6px">Home</div>
+                        <div id="headerDisplayContent" style="position:relative; top:8px">Home</div>
                         <div><paper-icon-button id="forward"  on-tap="{{angForward}}" icon="arrow-forward" ></paper-icon-button></div>
                     </div>
                 </core-toolbar>
@@ -92,13 +88,11 @@
                                 </a>
                             </section>
                             <section route="goto" class="goto">
-                                <p>1. Type <strong>Ang</strong> in the <strong>TextBox</strong> and <strong>Press Go</strong></p>
-                                <paper-input-decorator id="angInput"  on-keypress = "{{keyEvent}}" label = "Enter Ang No - (1-1430)" maxlength = "4">
-                                    <input id="angInput" is="core-input" type="text" pattern="^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|1[0-4][0-2][0-9]|1[0-3][0-9][0-9]|1430)$" preventInvalidInput  value="{{value2}}" committedValue="{{committedValue2}}" >
-                                </paper-input-decorator>
-                                <paper-button raised autofocus on-click = "{{goToAngNumber}}">Go</paper-button>
+                                <p>1. <strong>Slide</strong> to go to particular <strong>Ang</strong></p>
+                                <paper-slider pin id="angSlider" value="{{_startIndex}}" min = "{{_startIndex}}" max="{{_endIndex}}" on-change="{{myFunc}}"></paper-slider>
                                 <p>2. Use <strong>Arrows</strong> above to change <strong>Angs</strong> while Reading</p>
                                 <p>3. <strong>Touch</strong> on <strong>Screen</strong> to get Pad-Ched</p>
+                                <a id="linkAng" target = "_blank"></a>
                             </section>
                             {{sggs_content}}
                         </core-animated-pages>
@@ -116,7 +110,7 @@
           body: this.newNote,
           done: false
         });
-        this.$.newNoteInput.style.display = 'none';
+        this.$.newNoteInput.style.visibility = 'hidden';
         this.$.newNoteInput.value = null;
       }
     },
@@ -164,9 +158,9 @@
             if(currentAng > 0) {
                 $(headerDisplayDom).html("Ang - " + currentAng + "")
                 var backArrow = this.$.back
-                backArrow.style.display = 'block'
+                backArrow.style.visibility = 'visible'
                 var forward = this.$.forward
-                forward.style.display = 'block'
+                forward.style.visibility = 'visible'
             } else {
                 $(headerDisplayDom).html("Home")
             }
@@ -176,16 +170,16 @@
         if(location.hash == "" || location.hash == "#!/") {
             $(headerDisplayDom).html("Home")
             var backArrow = this.$.back
-            backArrow.style.display = 'none'
+            backArrow.style.visibility = 'hidden'
             var forward = this.$.forward
-            forward.style.display = 'block'
+            forward.style.visibility = 'hidden'
 
         } else if(location.hash == "#!/goto") {
-            $(headerDisplayDom).html("Go To")
+            $(headerDisplayDom).html("Ladivaar")
             var backArrow = this.$.back
-            backArrow.style.display = 'block'
+            backArrow.style.visibility = 'hidden'
             var forward = this.$.forward
-            forward.style.display = 'none'
+            forward.style.visibility = 'hidden'
         }
     },
     ready:function() {
@@ -198,12 +192,12 @@
         this.setDisplayLabel();
     },
     showNewNoteInput: function() {
-      this.$.newNoteInput.style.display = 'block';
+      this.$.newNoteInput.style.visibility = 'visible';
     },
     myFunc: function (argument) {
-        if(this.$.ratings.value && this.$.ratings.value != 0) {
-            window.location.href = "#!/ang/" + this.$.ratings.value
-            // document.querySelector('app-router').go('/ang' + toWords(this.$.ratings.value), {replace:true});
+        if(this.$.angSlider.value && this.$.angSlider.value != 0) {
+            window.location.href = "#!/ang/" + this.$.angSlider.value
+            // document.querySelector('app-router').go('/ang' + toWords(this.$.angSlider.value), {replace:true});
         }
     },
     angForward:function() {
@@ -212,14 +206,10 @@
         if(currentAngArr && currentAngArr.length) {
             currentAng = parseInt(currentAngArr[0])
         }
-        if(currentAng == 0) {
+        if(currentAng == {{_endIndex}}) {
             this.goToGoToPage();
-        } else if(currentAng < 1430) {
+        } else if(currentAng < {{_endIndex}}) {
             window.location.href = "#!/ang/" + (currentAng + 1)
-        } else if(currentAng == 1430) {
-            window.location.href = "#!/ang/" + (currentAng + 1)
-            var forward = this.$.forward
-            forward.style.display = 'none'
         }
     },
     angBack:function() {
@@ -230,10 +220,10 @@
         } else if(currentAngArr && currentAngArr.length) {
             currentAng = parseInt(currentAngArr[0])
         }
-        if(currentAng && currentAng > 1) {
-            window.location.href = "#!/ang/" + (currentAng - 1)
-        } else if(currentAng == 1) {
+        if((currentAng - 1) % 100 == 0) {
             this.goToGoToPage();
+        } else if(currentAng && currentAng > {{_startIndex}}) {
+            window.location.href = "#!/ang/" + (currentAng - 1)
         }
     },
     goToHome: function () {
@@ -254,6 +244,20 @@
         }
         this.x = 0;
         this.y = 0;
+    },
+    angRange : function(num) {
+        var _range = 100;
+        var _factor = num / _range
+
+        if(_factor % 1 == 0) {
+            //num is rounded - 100 200, 1100, 1400 etc
+            _factor = _factor - 0.1
+        }
+        var _lowRangeFactor = Math.floor(_factor)
+        return {
+            startIndex : (_lowRangeFactor * _range) + 1,
+            endIndex : (_lowRangeFactor + 1) * _range > 1400 ? 1430 : (_lowRangeFactor + 1) * _range
+        }
     },
     goToAngNumber: function() {
         if(this.$.angInput.value) {
