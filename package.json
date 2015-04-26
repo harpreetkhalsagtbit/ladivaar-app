@@ -16,5 +16,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+  },
+  "devDependencies": {
+    "grunt-vulcanize": "^0.6.4"
   }
 }

@@ -46,7 +46,29 @@ module.exports = function(grunt) {
 		            }
 		        ]
 		    }
-		}
+		},
+		vulcanize: {
+		    default: {
+		      options: {},
+		      files: {
+		        'ang/index_1_100.html': 'ang/index_1_100.html',
+		        'ang/index_101_200.html': 'ang/index_101_200.html',
+		        'ang/index_201_300.html': 'ang/index_201_300.html',
+		        'ang/index_301_400.html': 'ang/index_301_400.html',
+		        'ang/index_401_500.html': 'ang/index_401_500.html',
+		        'ang/index_501_600.html': 'ang/index_501_600.html',
+		        'ang/index_601_700.html': 'ang/index_601_700.html',
+		        'ang/index_701_800.html': 'ang/index_701_800.html',
+		        'ang/index_801_900.html': 'ang/index_801_900.html',
+		        'ang/index_901_1000.html': 'ang/index_901_1000.html',
+		        'ang/index_1001_1100.html': 'ang/index_1001_1100.html',
+		        'ang/index_1101_1200.html': 'ang/index_1101_1200.html',
+		        'ang/index_1201_1300.html': 'ang/index_1201_1300.html',
+		        'ang/index_1301_1400.html': 'ang/index_1301_1400.html',
+		        'ang/index_1401_1430.html': 'ang/index_1401_1430.html',
+		      },
+		    },
+		  },
 	})
 
     // Actually load this plugin's task(s).
@@ -57,6 +79,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-zip');
 grunt.loadNpmTasks('grunt-convert');
 grunt.loadNpmTasks('grunt-json-format');
+grunt.loadNpmTasks('grunt-vulcanize');
 
 	grunt.registerTask('unicodeConversion', function() {
 		var unicodeJsonObject = []
@@ -166,7 +189,7 @@ grunt.loadNpmTasks('grunt-json-format');
 		_lastPankti["ang"] = 1430
         fs.writeFileSync('SGGS.json', JSON.stringify(unicodeJsonObject));
 	});
-
+	
 	grunt.registerTask('htmlJsonConversion', function() {
         var _sggsJson = JSON.parse(fs.readFileSync('SGGS.json').toString());
         var _startSection = "<section id='{{_id}}' route='{{_route}}'>"
@@ -232,30 +255,76 @@ grunt.loadNpmTasks('grunt-json-format');
     			_ang = '';
         	}
         }
-        fs.writeFileSync('indexLadivaar.json', JSON.stringify(_arrayAngs))
+        fs.writeFileSync('../reveal.js/indexLarivaar.json', JSON.stringify(_arrayAngs))
  	});
+
 	grunt.registerTask('createJsonFilesOnGivenRange', function() {
-        var jsonContent = JSON.parse(fs.readFileSync('indexLadivaar.json').toString());
+		var range = 100;
+        var jsonContent = JSON.parse(fs.readFileSync('../reveal.js/indexLarivaar.json').toString());
+        var _count = 0;
         var splitJson = [];
+        var startIndex = 0;
+        var endIndex = startIndex + range;
         var ang = 1;
 		var mappingObject = JSON.parse(fs.readFileSync('../Unicode-Input/lib/core/lang/punjabi/_jsonMaps/gurbaniAkharSlim.json').toString());
-
-        var _htmlContent = fs.readFileSync('templates/code-lab_template.html').toString();
-        var _routeContent = fs.readFileSync('templates/route_template.html').toString();
-
         var routeString = '<more-route name="{{_name}}" path="/{{_name}}"></more-route>'
-        var _routeTemplateContent = '';
+        var _routeTemplateContent = [];
+
+		var dir = "ang"
+		if (!fs.existsSync(dir)){
+		    fs.mkdirSync(dir);
+		}
+
+		var dir = "ang/code"
+		if (!fs.existsSync(dir)){
+		    fs.mkdirSync(dir);
+		}
+
+		var dir = "ang/code/routes"
+		if (!fs.existsSync(dir)){
+		    fs.mkdirSync(dir);
+		}
+
         for(var each in jsonContent) {
-    		jsonContent[each] = jsonContent[each].replace(/{{_id}}/g, "ang" + ang)
-    		splitJson.push(jsonContent[each].replace(/{{_route}}/g,  "ang/" + ang))
-    		_routeTemplateContent += routeString.replace(/{{_name}}/g, "ang/" + ang) + "\n"
-    		ang++;
+        	_count++;
+        	var _jsonContent = jsonContent[each].replace("{{_id}}", "ang" + ang)
+        	_jsonContent = _jsonContent.replace("{{_route}}", "ang/" + ang)
+    		splitJson.push(_jsonContent)
+    		_routeTemplateContent.push(routeString.replace(/{{_name}}/g, "ang/" + ang))
+        		ang++;
+        	if (_count == endIndex) {
+       //  		splitJson.push(jsonContent[each].replace("{{_id}}", ang))
+	    		// _routeTemplateContent.push(routeString.replace(/{{_name}}/g, "ang/" + ang))
+       //  		ang++;
+				var _htmlContent = fs.readFileSync('templates/code-lab_template.html').toString();
+				var _routeContent = fs.readFileSync('templates/route_template.html').toString();
+				var _indexContent = fs.readFileSync('templates/index_template.html').toString();
+
+				// var _punjabiAng = convertToUnicodeCLI((startIndex+1) + " - " + _count, mappingObject)
+				// _punjabiAng = _punjabiAng.replace("-", "&nbsp-&nbsp")
+		  //       _htmlContent = _htmlContent.replace("{{angRangePunjabi}}", _punjabiAng)
+		  //       _htmlContent = _htmlContent.replace("{{angRangeEnglish}}", (startIndex+1) + "&nbsp-&nbsp" + _count)
+		        _htmlContent = _htmlContent.replace("{{sggs_content}}", splitJson.join("\n"))
+		        _htmlContent = _htmlContent.replace("{{_route}}", 'routes/route_' + (startIndex+1) + "_" + _count + ".html")
+		        _htmlContent = _htmlContent.replace(/{{_startIndex}}/g, startIndex+1)
+		        _htmlContent = _htmlContent.replace(/{{_endIndex}}/g, _count)
+
+		        _routeContent = _routeContent.replace("{{route_content}}", _routeTemplateContent.join("\n"))
+		        _indexContent = _indexContent.replace("{{_codelab}}", 'code/code-lab_' + (startIndex+1) + "_" + _count + ".html")
+		        fs.writeFileSync('ang/code/code-lab_' + (startIndex+1) + "_" + _count + ".html", _htmlContent)
+		        fs.writeFileSync('ang/code/routes/route_' + (startIndex+1) + "_" + _count + ".html", _routeContent)
+		        fs.writeFileSync('ang/index_' + (startIndex+1) + "_" + _count + ".html", _indexContent)
+		        // fs.writeFileSync('../reveal.js/indexLarivaar.html', _htmlContent)
+
+				startIndex = _count
+		        endIndex = startIndex + range
+		        if(endIndex > 1400) {
+		        	endIndex = 1430
+		        }
+        		splitJson.splice(0);
+        		_routeTemplateContent.splice(0)
+        	}
         }
-        _htmlContent = _htmlContent.replace("{{sggs_content}}", splitJson.join("\n"))
-        _routeContent = _routeContent.replace("{{route_content}}", _routeTemplateContent)
-        fs.writeFileSync("code-lab.html", _htmlContent)
-        fs.writeFileSync("route.html", _routeContent)
-        // fs.writeFileSync('../reveal.js/indexLadivaar.html', _htmlContent)
 	});
 
 	grunt.registerTask('copyDependentFilesToReveal', function() {
@@ -270,7 +339,7 @@ grunt.loadNpmTasks('grunt-json-format');
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
-    grunt.registerTask('default', ['rename:renameDocxToZip', 'unzip:extractZipFile', 'rename:renameZipToDocx', 'convert:xml2json', 'unicodeConversion', 'json-format:test', 'htmlJsonConversion', 'createJsonFilesOnGivenRange']);
+    grunt.registerTask('default', ['rename:renameDocxToZip', 'unzip:extractZipFile', 'rename:renameZipToDocx', 'convert:xml2json', 'unicodeConversion', 'json-format:test', 'htmlJsonConversion', 'createJsonFilesOnGivenRange', 'vulcanize:default']);
 }
 
 var convertToUnicodeCLI = function(text, mappingString) {
